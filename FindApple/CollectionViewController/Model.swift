@@ -33,7 +33,8 @@ class Model {
         for h in 0...hCount-1 {
             for w in 0...wCount-1 {
                 let tie = CGRect(x: CGFloat(CGFloat(w*tileSize)*scale), y: CGFloat(CGFloat(h*tileSize)*scale), width: CGFloat(CGFloat(tileSize)*scale), height: CGFloat(CGFloat(tileSize)*scale)) // 타일 setting (좌표&크기)
-                let tmp: CGImage = image.cgImage!.cropping(to: tie)! // 타일만큼 원본 이미지에서 떼기
+                
+                var tmp: CGImage = image.cgImage!.cropping(to: tie)! // 타일만큼 원본 이미지에서 떼기
                 imgSet.append(UIImage(cgImage: tmp))
             }
         }

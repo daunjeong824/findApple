@@ -15,6 +15,7 @@ extension UIImage {
         }
         return img.withRenderingMode(renderingMode)
     }
+
 }
 
 extension UIImage {

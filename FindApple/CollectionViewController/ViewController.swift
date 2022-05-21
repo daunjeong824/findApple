@@ -5,8 +5,7 @@ class Cell: UICollectionViewCell {
     static let identifier = "Cell"
     
     var imgview: UIImageView = {
-//        let imgview = UIImageView(frame: CGRect(x: 0, y: 0, width: 150.0, height: 150.0))
-        let imgview = UIImageView()
+        let imgview = UIImageView(frame: CGRect(x: 0, y: 0, width: 150.0, height: 150.0))
         imgview.backgroundColor = .darkGray
         return imgview
     }()
@@ -28,8 +27,8 @@ class Cell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imgview.image = nil
-        imgview.backgroundColor = .darkGray
+        self.imgview.image = nil
+        self.imgview.backgroundColor = .darkGray
     }
 }
 
@@ -38,7 +37,6 @@ class ViewController: UIViewController {
     var myimgSet: [UIImage] = []
     var isSelected: [Bool] = []
     
-    //MARK: Img Model & CollectionView Model
     private let model = Model(myImg: UIImage.backGround)
     
     // collectionView setting
@@ -62,12 +60,13 @@ class ViewController: UIViewController {
         model.delegate = self
         model.divImg(tileSize: 150)
         
+        self.initIsSelected()
+        self.makeApple()
+        
         self.view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        self.initIsSelected()
-        self.makeApple()
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -103,6 +102,7 @@ class ViewController: UIViewController {
         newImage = putImageToAnotherImage(backGround: randomImage, toPutImage: apple, position: CGPoint(x: randomImage.size.width / 2.0 , y: randomImage.size.height / 2.0))
         // 3. myImgSet에 반영
         self.myimgSet[randomIndex] = newImage
+
     }
     
     func initIsSelected() {
@@ -133,6 +133,7 @@ extension ViewController: UICollectionViewDataSource {
     // CollectionView Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath)
+
         guard let cell = cell as? Cell else { return cell }
         
         // touch event 등록 (touch 시 img가 로드되고, 아니면 회색)
@@ -162,5 +163,6 @@ extension ViewController: ModelDelegate {
     // MARK: ModelDelegate & CollectionViewDelegate
     func modelDidFinishDividingImages(imgSet: [UIImage]?) {
         self.myimgSet = imgSet!
+        self.collectionView.reloadData()
     }
 }
