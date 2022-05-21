@@ -48,9 +48,16 @@
 			children = (
 				356DAD97283262D8008A70FA /* ViewController.swift */,
 				355E7F9528374E7F006F18A7 /* ViewController+Action.swift */,
-				354BC64F2837C718000E02F6 /* Model.swift */,
 			);
 			path = CollectionViewController;
+			sourceTree = "<group>";
+		};
+		355FDCB9283919BD00C49D1F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				354BC64F2837C718000E02F6 /* Model.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		356DAD87283262D8008A70FA = {
@@ -72,6 +79,7 @@
 		356DAD92283262D8008A70FA /* FindApple */ = {
 			isa = PBXGroup;
 			children = (
+				355FDCB9283919BD00C49D1F /* Model */,
 				356DAD93283262D8008A70FA /* AppDelegate.swift */,
 				356DAD95283262D8008A70FA /* SceneDelegate.swift */,
 				354BC64D2837B717000E02F6 /* UIImage+Extensions.swift */,

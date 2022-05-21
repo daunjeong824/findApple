@@ -60,8 +60,8 @@ class ViewController: UIViewController {
         model.delegate = self
         model.divImg(tileSize: 150)
         
+        
         self.initIsSelected()
-        self.makeApple()
         
         self.view.addSubview(collectionView)
         collectionView.delegate = self
@@ -88,22 +88,7 @@ class ViewController: UIViewController {
     
     // TODO: 모델로 옮겨보기
     // MARK: Custom Function
-    func makeApple() {
-        var newImage = UIImage()
-        let apple: UIImage = .apple
-        
-        guard self.myimgSet.count > 0 else { return }
-        
-        // 1. random으로 imgSet 중 하나를 고르기 & 그 Index도 얻기
-        guard let randomImage: UIImage = self.myimgSet.randomElement(),
-              let randomIndex: Int = (self.myimgSet.firstIndex { $0 === randomImage }) else { return }
-        
-        // 2. 그 요소에 사과 모양 이미지를 랜덤으로 배치
-        newImage = putImageToAnotherImage(backGround: randomImage, toPutImage: apple, position: CGPoint(x: randomImage.size.width / 2.0 , y: randomImage.size.height / 2.0))
-        // 3. myImgSet에 반영
-        self.myimgSet[randomIndex] = newImage
-
-    }
+    
     
     func initIsSelected() {
         for _ in 0...self.myimgSet.count {
@@ -111,17 +96,6 @@ class ViewController: UIViewController {
         }
     }
     
-    // TODO: Model 로 옮겨보기
-    // 실제로 Apple을 1장에 랜덤 배치하는 함수
-    func putImageToAnotherImage(backGround: UIImage, toPutImage: UIImage, position: CGPoint) -> UIImage {
-        //CG 지원 이미지 만들기 위한 Graphic Renderer 생성
-        let renderer = UIGraphicsImageRenderer(size: backGround.size)
-        // renderer에 image 생성해 반환(UIImage)
-        return renderer.image { ctx in
-            backGround.draw(in: CGRect(origin: CGPoint.zero, size: backGround.size))
-            toPutImage.draw(in: CGRect(origin: position, size: toPutImage.size))
-        }
-    }
 }
 
 extension ViewController: UICollectionViewDataSource {
