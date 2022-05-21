@@ -11,6 +11,16 @@ import UIKit
 protocol ModelDelegate: NSObject {
     func modelDidFinishDividingImages(imgSet: [UIImage]?)
 }
+// ERR : Apple make
+enum MakeAppleError: LocalizedError {
+    case insufficientImage
+    
+    var errorDescription: String? {
+        switch self {
+        case .insufficientImage: return "이미지 수가 부족합니다."
+        }
+    }
+}
 
 // MARK: Model
 class Model {
@@ -35,7 +45,7 @@ class Model {
             for w in 0...wCount-1 {
                 let tie = CGRect(x: CGFloat(CGFloat(w*tileSize)*scale), y: CGFloat(CGFloat(h*tileSize)*scale), width: CGFloat(CGFloat(tileSize)*scale), height: CGFloat(CGFloat(tileSize)*scale)) // 타일 setting (좌표&크기)
                 
-                var tmp: CGImage = image.cgImage!.cropping(to: tie)! // 타일만큼 원본 이미지에서 떼기
+                let tmp: CGImage = image.cgImage!.cropping(to: tie)! // 타일만큼 원본 이미지에서 떼기
                 imgSet.append(UIImage(cgImage: tmp))
             }
         }
@@ -43,7 +53,7 @@ class Model {
         self.delegate?.modelDidFinishDividingImages(imgSet: newImgSet)
     }
     
-    // make Apple () -> self.delegate?..
+    // make Apple () -> 나중에, SubView 활용, 사과가 임의로 배치된 imgSet에 분할된 이미지 배치
     func makeApple(imgSet: [UIImage]) -> [UIImage]{
         var newImgSet = imgSet
         var newImage = UIImage()
@@ -68,4 +78,5 @@ class Model {
             toPutImage.draw(in: CGRect(origin: position, size: toPutImage.size))
         }
     }
+    
 }

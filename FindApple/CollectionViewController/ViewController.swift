@@ -1,37 +1,5 @@
 import UIKit
 
-// Custom Cell Class
-class Cell: UICollectionViewCell {
-    static let identifier = "Cell"
-    
-    var imgview: UIImageView = {
-        let imgview = UIImageView(frame: CGRect(x: 0, y: 0, width: 150.0, height: 150.0))
-        imgview.backgroundColor = .darkGray
-        return imgview
-    }()
-    
-    // 사과를 위한 더 작은 UIIMageView 를 만듦
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialize code
-    }
-    
-    func updateImage(_ img: UIImage?, isVisible: Bool?) { // isHidden 이나 별도의 enum을 선언해서쓰자
-        self.contentView.addSubview(self.imgview)
-        if let status = isVisible,
-           status {
-            self.imgview.image = img
-        }
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.imgview.image = nil
-        self.imgview.backgroundColor = .darkGray
-    }
-}
-
 class ViewController: UIViewController {
     // MARK: Property
     var myimgSet: [UIImage] = []
@@ -76,20 +44,6 @@ class ViewController: UIViewController {
         
     }
     
-    enum MakeAppleError: LocalizedError {
-        case insufficientImage
-        
-        var errorDescription: String? {
-            switch self {
-            case .insufficientImage: return "이미지 수가 부족합니다."
-            }
-        }
-    }
-    
-    // TODO: 모델로 옮겨보기
-    // MARK: Custom Function
-    
-    
     func initIsSelected() {
         for _ in 0...self.myimgSet.count {
             self.isSelected.append(false)
@@ -98,12 +52,13 @@ class ViewController: UIViewController {
     
 }
 
+// MARK: UICollectionViewDataSourceDelegate
 extension ViewController: UICollectionViewDataSource {
     // CollectionView length
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.myimgSet.count
     }
-    
+
     // CollectionView Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath)
@@ -126,7 +81,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     // CollectionView isSelected setting
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        self.isSelected[indexPath.item].toggle()
+        self.isSelected[indexPath.item] = true
+        // cell이 사과과 포함되어 있다면? => 승리 조건 구현
         collectionView.reloadData()
         return true
     }
